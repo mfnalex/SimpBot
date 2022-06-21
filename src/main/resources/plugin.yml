@@ -1,0 +1,5 @@
+name: SMPBot
+version: '${project.version}'
+main: com.github.cxlina.smpbot.Main
+api-version: 1.19
+authors: [ Cxlina ]
