@@ -11,6 +11,8 @@ import javax.security.auth.login.LoginException;
 
 public class Bot {
 
+    //Test-Comment
+
     private JDA jda;
 
     static {
