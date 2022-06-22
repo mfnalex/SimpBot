@@ -1,2 +1,18 @@
 application:
   token: '123456789'
+
+cum-translations:
+  come: "*cum"
+  welcome: "*whalecum"
+  coming: "*cumming"
+  witcH: "*bitch"
+  comes: "*cums"
+
+on-ping:
+  - "Help stepbro, I'm stuck D:"
+  - "That's what she said!"
+  - "Damn, you keep a tidy sink!"
+  - "I am the greatest pirate hunter in the world!"
+  - "Come at me, bro!"
+  - "If you were a lemon, I would put you on my shelf and cherish you like I cherish all our lemons."
+  - "HOt GiRls iN yoUr ArEa"
