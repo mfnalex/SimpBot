@@ -14,7 +14,7 @@ public class DiscordMessageListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        onMinecraftChatMessage(event);
+        onDiscordChatMessage(event);
         translateCumWords(event);
         onPing(event);
     }
@@ -43,10 +43,10 @@ public class DiscordMessageListener extends ListenerAdapter {
         event.getMessage().reply(cumWord).queue();
     }
 
-    private void onMinecraftChatMessage(MessageReceivedEvent event) {
+    private void onDiscordChatMessage(MessageReceivedEvent event) {
         if (event.getAuthor().isBot() || event.getMessage().isWebhookMessage() || !event.getChannel().getId().equals(ConfigUtil.getChatChannelID()))
             return;
-        String s = event.getMessage().getContentStripped();
+        String s = event.getMessage().getContentRaw();
         Bukkit.getOnlinePlayers().forEach(p -> {
             p.sendMessage("§7[§9Discord§7] §8" + event.getAuthor().getName() + " §7§l» §r" + s);
         });

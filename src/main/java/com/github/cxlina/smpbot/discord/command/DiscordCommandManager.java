@@ -2,6 +2,7 @@ package com.github.cxlina.smpbot.discord.command;
 
 import com.github.cxlina.smpbot.discord.command.impl.ListCommand;
 import com.github.cxlina.smpbot.discord.command.impl.OnlineCommand;
+import com.github.cxlina.smpbot.discord.command.impl.VerifyCommand;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.apache.commons.lang3.ArrayUtils;
@@ -20,7 +21,8 @@ public class DiscordCommandManager extends ListenerAdapter {
 
         this.discordCommands.addAll(Arrays.asList(
                 new ListCommand(),
-                new OnlineCommand()
+                new OnlineCommand(),
+                new VerifyCommand()
         ));
     }
 
