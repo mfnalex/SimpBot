@@ -23,7 +23,13 @@ public final class Main extends JavaPlugin {
         this.cumManager = new CumManager(Objects.requireNonNull(getConfig().getConfigurationSection("cum-translations")));
         this.replyManager = new ReplyManager(getConfig().getStringList("on-ping"));
         this.bot = new Bot();
-        Bukkit.getScheduler().runTaskTimer(this, () -> bot.getJDA().getPresence().setActivity(Activity.watching("Online: " + Bukkit.getServer().getOnlinePlayers().size())), 0L, 200L);
+        Bukkit.getScheduler().runTaskTimer(this, () -> {
+            try {
+                bot.getJDA().getPresence().setActivity(Activity.watching("Online: " + Bukkit.getServer().getOnlinePlayers().size()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, 0L, 200L);
     }
 
     @Override
