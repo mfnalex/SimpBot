@@ -22,7 +22,8 @@ public class Bot {
          */
         try {
             Class.forName("net.dv8tion.jda.internal.managers.AudioManagerImpl");
-        } catch (Throwable ignored) { };
+        } catch (Throwable ignored) {
+        }
     }
 
     public Bot() {
@@ -31,7 +32,7 @@ public class Bot {
             this.jda = JDABuilder.createDefault(ConfigUtil.getToken())
                     .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS)
                     .setStatus(OnlineStatus.ONLINE)
-                    .addEventListeners(new DiscordCommandManager())
+                    .addEventListeners(new DiscordCommandManager(), new MessageListener())
                     .build().awaitReady();
             Main.getPlugin().getLogger().info("SMPBot Started.");
         } catch (InterruptedException | LoginException e) {
