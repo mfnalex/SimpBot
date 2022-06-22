@@ -5,6 +5,7 @@ import com.github.cxlina.smpbot.util.ConfigUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -19,6 +20,22 @@ public class SpigotMessageListener implements Listener {
         MessageEmbed.Field f = new MessageEmbed.Field(e.getPlayer().getName(), e.getMessage(), true);
         EmbedBuilder embed = new EmbedBuilder().setColor(Color.GREEN).setTitle("SMP-Chat").addField(f);
         Member m = ConfigUtil.getDiscordMember(e.getPlayer());
-        Main.getPlugin().getBot().getJDA().getGuildById(ConfigUtil.getMainGuildID()).getTextChannelById(ConfigUtil.getChatChannelID()).sendMessage("**" + (m != null ? m.getEffectiveName() : e.getPlayer().getName()) + "**: " + e.getMessage()).queue();
+        String finalMessage = this.stripMentions(e.getMessage());
+        Main.getPlugin().getBot().getJDA().getGuildById(ConfigUtil.getMainGuildID()).getTextChannelById(ConfigUtil.getChatChannelID()).sendMessage("**" + (m != null ? m.getEffectiveName() : e.getPlayer().getName()) + "**: " + finalMessage).queue();
+    }
+
+    private String stripMentions(String text) {
+        String[] args = text.split(" ");
+        StringBuilder b = new StringBuilder();
+        for (int i = 0; i < args.length; i++) {
+            if (args[i].startsWith("@")) {
+                ArrayUtils.remove(args, i);
+            }
+        }
+        for (String arg : args) {
+            b.append(arg).append(" ");
+        }
+        b.deleteCharAt(b.length() - 1);
+        return b.toString();
     }
 }
