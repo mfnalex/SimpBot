@@ -5,7 +5,6 @@ import com.github.cxlina.smpbot.util.ConfigUtil;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -20,22 +19,20 @@ public class SpigotMessageListener implements Listener {
         MessageEmbed.Field f = new MessageEmbed.Field(e.getPlayer().getName(), e.getMessage(), true);
         EmbedBuilder embed = new EmbedBuilder().setColor(Color.GREEN).setTitle("SMP-Chat").addField(f);
         Member m = ConfigUtil.getDiscordMember(e.getPlayer());
-        String finalMessage = this.stripMentions(e.getMessage());
+        String s = this.stripMentionHexCodes(e.getMessage().replace("&", "§"));
+        String finalMessage = this.stripMentionHexCodes(e.getMessage());
+
         Main.getPlugin().getBot().getJDA().getGuildById(ConfigUtil.getMainGuildID()).getTextChannelById(ConfigUtil.getChatChannelID()).sendMessage("**" + (m != null ? m.getEffectiveName() : e.getPlayer().getName()) + "**: " + finalMessage).queue();
     }
 
-    private String stripMentions(String text) {
-        String[] args = text.split(" ");
+    private String stripMentionHexCodes(String text) {
+        String[] args = text.split("§#");
         StringBuilder b = new StringBuilder();
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].startsWith("@")) {
-                ArrayUtils.removeElement(args, args[i]);
-            }
-        }
         for (String arg : args) {
-            b.append(arg).append(" ");
+            if (arg.equals("@"))
+                continue;
+            b.append(arg.charAt(6));
         }
-        b.deleteCharAt(b.length() - 1);
         return b.toString();
     }
 }
