@@ -1,7 +1,7 @@
 package com.github.cxlina.smpbot;
 
 import com.github.cxlina.smpbot.discord.Bot;
-import com.github.cxlina.smpbot.discord.SpigotMessageListener;
+import com.github.cxlina.smpbot.discord.SpigotListener;
 import com.github.cxlina.smpbot.util.CumManager;
 import com.github.cxlina.smpbot.util.ReplyManager;
 import net.dv8tion.jda.api.entities.Activity;
@@ -24,7 +24,7 @@ public final class Main extends JavaPlugin {
         this.cumManager = new CumManager(Objects.requireNonNull(getConfig().getConfigurationSection("cum-translations")));
         this.replyManager = new ReplyManager(getConfig().getStringList("on-ping"));
         this.bot = new Bot();
-        Bukkit.getPluginManager().registerEvents(new SpigotMessageListener(), this);
+        Bukkit.getPluginManager().registerEvents(new SpigotListener(), this);
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             try {
                 bot.getJDA().getPresence().setActivity(Activity.watching("Online: " + Bukkit.getServer().getOnlinePlayers().size()));
