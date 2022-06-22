@@ -33,6 +33,8 @@ public class MessageListener extends ListenerAdapter {
     }
 
     // Test
+
+    // NOch ein Test
     private void parseCommands(MessageReceivedEvent event) {
         String message = event.getMessage().getContentRaw().split(" ")[0];
         if (!message.startsWith("?")) return;
