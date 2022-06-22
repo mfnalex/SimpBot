@@ -1,6 +1,7 @@
 package com.github.cxlina.smpbot.discord;
 
 import com.github.cxlina.smpbot.Main;
+import com.github.cxlina.smpbot.discord.command.DiscordCommandManager;
 import com.github.cxlina.smpbot.util.ConfigUtil;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -30,8 +31,8 @@ public class Bot {
             this.jda = JDABuilder.createDefault(ConfigUtil.getToken())
                     .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS)
                     .setStatus(OnlineStatus.ONLINE)
+                    .addEventListeners(new DiscordCommandManager())
                     .build().awaitReady();
-            jda.addEventListener(new MessageListener());
             Main.getPlugin().getLogger().info("SMPBot Started.");
         } catch (InterruptedException | LoginException e) {
             e.printStackTrace();
