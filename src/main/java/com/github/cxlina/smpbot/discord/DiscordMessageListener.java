@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-public class MessageListener extends ListenerAdapter {
+public class DiscordMessageListener extends ListenerAdapter {
 
     private static final Main main = Main.getPlugin();
 

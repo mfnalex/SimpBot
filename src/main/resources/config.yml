@@ -1,5 +1,7 @@
 application:
   token: '123456789'
+  guild: '123456789'
+  chat: '123456789'
 
 cum-translations:
   come: "*cum"
