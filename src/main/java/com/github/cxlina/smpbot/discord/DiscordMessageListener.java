@@ -1,9 +1,11 @@
 package com.github.cxlina.smpbot.discord;
 
 import com.github.cxlina.smpbot.Main;
+import com.github.cxlina.smpbot.util.ConfigUtil;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 public class DiscordMessageListener extends ListenerAdapter {
@@ -12,6 +14,7 @@ public class DiscordMessageListener extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+        onMinecraftChatMessage(event);
         translateCumWords(event);
         onPing(event);
     }
@@ -38,5 +41,14 @@ public class DiscordMessageListener extends ListenerAdapter {
             return;
         }
         event.getMessage().reply(cumWord).queue();
+    }
+
+    private void onMinecraftChatMessage(MessageReceivedEvent event) {
+        if (event.getAuthor().isBot() || event.getMessage().isWebhookMessage() || !event.getChannel().getId().equals(ConfigUtil.getChatChannelID()))
+            return;
+        String s = event.getMessage().getContentStripped();
+        Bukkit.getOnlinePlayers().forEach(p -> {
+            p.sendMessage("§7[§9Discord§7] §8" + event.getAuthor().getName() + " §7§l» §r" + s);
+        });
     }
 }
