@@ -18,7 +18,7 @@ public class VerifyCommand extends DiscordCommand {
 
     @Override
     public void run(Member member, MessageChannel channel, Message message, String[] args) {
-        if (member.hasPermission(Permission.ADMINISTRATOR)) {
+        if (member.hasPermission(Permission.MANAGE_SERVER)) {
             if (args.length == 2) {
                 String id = args[0];
                 UUID uuid = null;
