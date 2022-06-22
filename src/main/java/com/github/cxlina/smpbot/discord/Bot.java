@@ -1,10 +1,6 @@
 package com.github.cxlina.smpbot.discord;
 
 import com.github.cxlina.smpbot.Main;
-import com.github.cxlina.smpbot.discord.command.CommandRegistry;
-import com.github.cxlina.smpbot.discord.command.commands.ListCommand;
-import com.github.cxlina.smpbot.discord.command.commands.OnlineCommand;
-import com.github.cxlina.smpbot.discord.command.commands.PaperCommand;
 import com.github.cxlina.smpbot.util.ConfigUtil;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -14,8 +10,6 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import javax.security.auth.login.LoginException;
 
 public class Bot {
-
-    private final CommandRegistry commandRegistry = new CommandRegistry();
 
     private JDA jda;
 
@@ -31,19 +25,13 @@ public class Bot {
     }
 
     public Bot() {
-
         if (ConfigUtil.getToken().equals("invalid")) return;
-
         try {
-
-            registerCommands();
-
             this.jda = JDABuilder.createDefault(ConfigUtil.getToken())
                     .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS)
                     .setStatus(OnlineStatus.ONLINE)
                     .build().awaitReady();
-            jda.addEventListener(new MessageListener(commandRegistry));
-
+            jda.addEventListener(new MessageListener());
             Main.getPlugin().getLogger().info("SMPBot Started.");
         } catch (InterruptedException | LoginException e) {
             e.printStackTrace();
@@ -52,12 +40,5 @@ public class Bot {
 
     public JDA getJDA() {
         return jda;
-    }
-
-    private void registerCommands() {
-
-        commandRegistry.register("list", new ListCommand());
-        commandRegistry.register("online", new OnlineCommand());
-        commandRegistry.register("paper", new PaperCommand());
     }
 }
