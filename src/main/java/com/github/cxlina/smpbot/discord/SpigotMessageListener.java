@@ -29,7 +29,7 @@ public class SpigotMessageListener implements Listener {
         StringBuilder b = new StringBuilder();
         for (int i = 0; i < args.length; i++) {
             if (args[i].startsWith("@")) {
-                ArrayUtils.remove(args, i);
+                ArrayUtils.removeElement(args, args[i]);
             }
         }
         for (String arg : args) {
