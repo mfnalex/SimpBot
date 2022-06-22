@@ -16,3 +16,7 @@ on-ping:
   - "Come at me, bro!"
   - "If you were a lemon, I would put you on my shelf and cherish you like I cherish all our lemons."
   - "HOt GiRls iN yoUr ArEa"
+
+commands:
+  - "?list`- Shows this command list."
+  - "?online - Shows the current online player count"
