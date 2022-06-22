@@ -1,6 +1,8 @@
 package com.github.cxlina.smpbot.util;
 
 import com.github.cxlina.smpbot.Main;
+import net.dv8tion.jda.api.entities.Member;
+import org.bukkit.entity.Player;
 
 public class ConfigUtil {
 
@@ -14,5 +16,16 @@ public class ConfigUtil {
 
     public static String getChatChannelID() {
         return Main.getPlugin().getConfig().getString("application.chat", "invalid");
+    }
+
+    public static boolean isVerified(Player p) {
+        return Main.getPlugin().getConfig().contains("verified." + p.getUniqueId().toString());
+    }
+
+    public static Member getDiscordMember(Player p) {
+        if (!isVerified(p)) {
+            return null;
+        }
+        return Main.getPlugin().getBot().getJDA().getGuildById(getMainGuildID()).retrieveMemberById(Main.getPlugin().getConfig().getString("verified." + p.getUniqueId().toString())).complete();
     }
 }
