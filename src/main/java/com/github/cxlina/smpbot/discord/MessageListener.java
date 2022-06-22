@@ -29,11 +29,7 @@ public class MessageListener extends ListenerAdapter {
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
 
         String message = event.getMessage().getContentRaw();
-        if(!message.startsWith(PREFIX)) {
-            onPing(event);
-            translateCumWords(event);
-            return;
-        }
+        if(!message.startsWith(PREFIX)) return;
 
         String[] args = message.split(" ");
         String command = args[0].replaceFirst("\\?", "");
@@ -45,6 +41,10 @@ public class MessageListener extends ListenerAdapter {
 
             cmd.onCommand(event.getMember(), event.getMessage(), newArgs);
         });
+
+        /* Might be unwanted as a command result */
+        onPing(event);
+        translateCumWords(event);
     }
 
     private void onPing(MessageReceivedEvent event) {
