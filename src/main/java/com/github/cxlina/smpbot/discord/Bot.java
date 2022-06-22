@@ -32,7 +32,7 @@ public class Bot {
             this.jda = JDABuilder.createDefault(ConfigUtil.getToken())
                     .enableIntents(GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS)
                     .setStatus(OnlineStatus.ONLINE)
-                    .addEventListeners(new DiscordCommandManager(), new MessageListener())
+                    .addEventListeners(new DiscordCommandManager(), new DiscordMessageListener())
                     .build().awaitReady();
             Main.getPlugin().getLogger().info("SMPBot Started.");
         } catch (InterruptedException | LoginException e) {
