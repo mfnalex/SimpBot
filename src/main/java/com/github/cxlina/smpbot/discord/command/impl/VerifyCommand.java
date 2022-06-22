@@ -29,7 +29,8 @@ public class VerifyCommand extends DiscordCommand {
                 }
                 Main.getPlugin().getConfig().set("verified." + uuid.toString(), id);
                 Main.getPlugin().saveConfig();
+                message.reply("**Verified successfully.**").queue();
             } else message.reply("**Syntax: ?verify <discord-user-id> <player-uuid>**").queue();
-        } else message.reply("**You idiot don't have permissions**");
+        } else message.reply("**You idiot don't have permissions**").queue();
     }
 }
