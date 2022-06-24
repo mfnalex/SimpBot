@@ -48,6 +48,10 @@ public class SpigotListener implements Listener {
     @EventHandler
     public void onMinecraftPlayerAchievement(PlayerAdvancementDoneEvent e) {
         AdvancementInfo info = new AdvancementInfo(e.getAdvancement());
+        if(info.getTitle() == null) {
+            System.out.println("Null advancement: " + e.getAdvancement().getKey());
+            return;
+        }
         if(e.getAdvancement().getKey().getKey().contains("recipe/")) return;
         Member m = ConfigUtil.getDiscordMember(e.getPlayer());
         EmbedBuilder b = new EmbedBuilder().setColor(Color.GREEN).setTitle("Simp-SMP").setDescription((m == null ? e.getPlayer().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " completed the Advancement " + info.getTitle() + ".");
