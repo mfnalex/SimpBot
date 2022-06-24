@@ -44,7 +44,7 @@ public class DiscordMessageListener extends ListenerAdapter {
     }
 
     private void onDiscordChatMessage(MessageReceivedEvent event) {
-        if (event.getAuthor().isBot() || event.getMessage().isWebhookMessage() || !event.getChannel().getId().equals(ConfigUtil.getChatChannelID()))
+        if (event.getAuthor().isBot() || event.getMessage().isWebhookMessage() || !event.getChannel().getId().equals(ConfigUtil.getChatChannelID()) || event.getMessage().getContentRaw().startsWith("?"))
             return;
         StringBuilder builder = new StringBuilder();
         for (String s : event.getMessage().getContentRaw().split(" ")) {
