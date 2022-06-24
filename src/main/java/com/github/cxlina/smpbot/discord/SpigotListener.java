@@ -47,7 +47,7 @@ public class SpigotListener implements Listener {
     @EventHandler
     public void onMinecraftPlayerAchievement(PlayerAdvancementDoneEvent e) {
         Member m = ConfigUtil.getDiscordMember(e.getPlayer());
-        EmbedBuilder b = new EmbedBuilder().setColor(Color.GREEN).setTitle("Simp-SMP").setDescription((m == null ? e.getPlayer().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " completed the Advancement " + e.getAdvancement().getDisplay().getTitle() + ".");
+        EmbedBuilder b = new EmbedBuilder().setColor(Color.GREEN).setTitle("Simp-SMP").setDescription((m == null ? e.getPlayer().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " completed the Advancement " + e.getAdvancement().getDisplay().title() + ".");
         Main.getPlugin().getBot().getJDA().getGuildById(ConfigUtil.getMainGuildID()).getTextChannelById(ConfigUtil.getChatChannelID()).sendMessageEmbeds(b.build()).queue();
     }
 }
