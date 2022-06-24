@@ -9,6 +9,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -39,7 +40,14 @@ public class SpigotListener implements Listener {
     @EventHandler
     public void onMinecraftPlayerDeath(PlayerDeathEvent e) {
         Member m = ConfigUtil.getDiscordMember(e.getEntity());
-        EmbedBuilder b = new EmbedBuilder().setColor(Color.GREEN).setTitle("Simp-SMP").setDescription((m == null ? e.getEntity().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " died. Reason: " + e.getEntity().getLastDamageCause().getCause().name().toLowerCase().replace("_", " "));
+        EmbedBuilder b = new EmbedBuilder().setColor(Color.GREEN).setTitle("Simp-SMP").setDescription((m == null ? e.getEntity().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " died. Reason: " + e.getEntity().getLastDamageCause().getCause().name().toLowerCase().replace("_", " ") + ".");
+        Main.getPlugin().getBot().getJDA().getGuildById(ConfigUtil.getMainGuildID()).getTextChannelById(ConfigUtil.getChatChannelID()).sendMessageEmbeds(b.build()).queue();
+    }
+
+    @EventHandler
+    public void onMinecraftPlayerAchievement(PlayerAdvancementDoneEvent e) {
+        Member m = ConfigUtil.getDiscordMember(e.getPlayer());
+        EmbedBuilder b = new EmbedBuilder().setColor(Color.GREEN).setTitle("Simp-SMP").setDescription((m == null ? e.getPlayer().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " completed the Advancement " + e.getAdvancement().getDisplay().getTitle() + ".");
         Main.getPlugin().getBot().getJDA().getGuildById(ConfigUtil.getMainGuildID()).getTextChannelById(ConfigUtil.getChatChannelID()).sendMessageEmbeds(b.build()).queue();
     }
 }
