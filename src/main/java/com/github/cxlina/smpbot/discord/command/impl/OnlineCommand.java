@@ -17,7 +17,7 @@ public class OnlineCommand extends DiscordCommand {
 
     @Override
     public void run(Member member, MessageChannel channel, Message message, String[] args) {
-        String s = "**Noone is online!** You're all a bunch of losers \uD83D\uDE22";
+        String s = "**No one is online!** You're all a bunch of losers \uD83D\uDE22";
         if (Bukkit.getOnlinePlayers().size() > 0) {
             s = (Bukkit.getOnlinePlayers().size() > 1 ? "**There are currently " + Bukkit.getOnlinePlayers().size() + " jerks online** :drooling_face:\n" : "**There's currently 1 jerk online** :drooling_face:\n")
                     + Bukkit.getOnlinePlayers().stream().map(player -> "- " + player.getName()).sorted().collect(Collectors.joining("\n"));
