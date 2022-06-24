@@ -2,6 +2,7 @@ package com.github.cxlina.smpbot.discord;
 
 import com.github.cxlina.smpbot.Main;
 import com.github.cxlina.smpbot.util.ConfigUtil;
+import de.jeff_media.jefflib.data.AdvancementInfo;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import org.bukkit.event.EventHandler;
@@ -47,7 +48,7 @@ public class SpigotListener implements Listener {
     @EventHandler
     public void onMinecraftPlayerAchievement(PlayerAdvancementDoneEvent e) {
         Member m = ConfigUtil.getDiscordMember(e.getPlayer());
-        EmbedBuilder b = new EmbedBuilder().setColor(Color.GREEN).setTitle("Simp-SMP").setDescription((m == null ? e.getPlayer().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " completed the Advancement " + e.getAdvancement().getDisplay().title() + ".");
+        EmbedBuilder b = new EmbedBuilder().setColor(Color.GREEN).setTitle("Simp-SMP").setDescription((m == null ? e.getPlayer().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " completed the Advancement " + new AdvancementInfo(e.getAdvancement()).getTitle() + ".");
         Main.getPlugin().getBot().getJDA().getGuildById(ConfigUtil.getMainGuildID()).getTextChannelById(ConfigUtil.getChatChannelID()).sendMessageEmbeds(b.build()).queue();
     }
 }
