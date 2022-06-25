@@ -44,21 +44,8 @@ public class DiscordMessageListener extends ListenerAdapter {
     }
 
     private void onDiscordChatMessage(MessageReceivedEvent event) {
-        if (event.getAuthor().isBot() || event.getMessage().isWebhookMessage() || !event.getChannel().getId().equals(ConfigUtil.getChatChannelID()) || event.getMessage().getContentRaw().startsWith("?"))
+        if (event.getAuthor().isBot() || event.getMessage().isWebhookMessage() || !event.getChannel().getId().equals(ConfigUtil.getChatChannelID()) || event.getMessage().getContentDisplay().startsWith("?"))
             return;
-        StringBuilder builder = new StringBuilder();
-        for (String s : event.getMessage().getContentRaw().split(" ")) {
-            if (s.startsWith("<@") && s.endsWith(">")) {
-                try {
-                    builder.append(event.getJDA().getGuildById(ConfigUtil.getMainGuildID()).retrieveMemberById(s.substring(2, s.length() - 1)).complete().getEffectiveName());
-                } catch (IllegalArgumentException e) {
-                    builder.append(s, 2, s.length() - 1).append(" "); // if the bot couldn't get the mentioned User from the id some reason, it'll just use the id itself instead. only used when errors happen.
-                }
-                continue;
-            }
-            builder.append(s).append(" ");
-        }
-        builder.deleteCharAt(builder.length() - 1);
-        Bukkit.broadcastMessage("§7[§9Discord§7] §8" + (event.getAuthor().getName()) + " §7§l» §r" + builder.toString());
+        Bukkit.broadcastMessage("§7[§9Discord§7] §8" + event.getAuthor().getName() + " §7§l» §r" + event.getMessage().getContentDisplay());
     }
 }
