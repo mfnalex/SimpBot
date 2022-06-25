@@ -26,7 +26,7 @@ public class PVPCommand extends DiscordCommand {
                     boolean flag = Main.getPlugin().getConfig().getBoolean("pvp." + uuid, true);
                     Main.getPlugin().getConfig().set("pvp." + uuid, !flag);
                     Main.getPlugin().saveConfig();
-                    message.reply((flag ? "Disabled" : "Enabled") + " PvP for " + Bukkit.getPlayer(uuid).getName()).queue();
+                    message.reply((flag ? "Disabled" : "Enabled") + " PvP for " + Bukkit.getOfflinePlayer(uuid).getName()).queue();
                 } catch (IllegalArgumentException e) {
                     message.reply("**Invalid UUID format.**").queue();
                 } catch (NullPointerException e) {

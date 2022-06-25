@@ -3,9 +3,12 @@ package com.github.cxlina.smpbot.discord;
 import com.github.cxlina.smpbot.Main;
 import com.github.cxlina.smpbot.util.ConfigUtil;
 import com.github.cxlina.smpbot.util.TranslationUtil;
+import de.jeff_media.jefflib.Tasks;
 import de.jeff_media.jefflib.data.AdvancementInfo;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.requests.restaction.MessageAction;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,7 +30,19 @@ public class SpigotListener implements Listener {
         //Handling Discord Chat-Messages
         Member m = ConfigUtil.getDiscordMember(e.getPlayer());
         Bukkit.getScheduler().runTaskAsynchronously(Main.getPlugin(), () -> {
-            Main.getPlugin().getBot().getJDA().getGuildById(ConfigUtil.getMainGuildID()).getTextChannelById(ConfigUtil.getChatChannelID()).sendMessage("**" + (m != null ? m.getEffectiveName() : e.getPlayer().getName()) + "**: " + e.getMessage()).queue();
+            Main.getPlugin().getBot().getJDA().getGuildById(ConfigUtil.getMainGuildID()).getTextChannelById(ConfigUtil.getChatChannelID()).sendMessage("**" + (m != null ? m.getEffectiveName() : e.getPlayer().getName()) + "**: " + e.getMessage()).queue(message -> {
+                /*
+                There doesn't seem to be a reliable method to check whether a role or here or everyone was pinged until the message was actually sent. Pretty stupid.
+                Let's just kick the player when it happened. That will at least stop them from spam-pinging.
+                 */
+                if(message != null) {
+                    if(message.getMentions().mentionsEveryone() || message.getMentions().getMentions(Message.MentionType.HERE).size() > 0) {
+                        Tasks.nextTick(() -> {
+                            e.getPlayer().kickPlayer("Stop mentioning @everyone or @here you imbecile!");
+                        });
+                    }
+                }
+            });
         });
     }
 
