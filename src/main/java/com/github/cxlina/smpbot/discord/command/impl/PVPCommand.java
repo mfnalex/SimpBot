@@ -33,6 +33,6 @@ public class PVPCommand extends DiscordCommand {
                     message.reply("**This Player doesn't exist.**").queue();
                 }
             }
-        }
+        } else message.reply("**You idiot don't have permissions**").queue();
     }
 }

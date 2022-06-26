@@ -5,11 +5,7 @@ import com.github.cxlina.smpbot.util.ConfigUtil;
 import com.github.cxlina.smpbot.util.TranslationUtil;
 import de.jeff_media.jefflib.Tasks;
 import de.jeff_media.jefflib.data.AdvancementInfo;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +20,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.awt.*;
 import java.util.Arrays;
-import java.util.Locale;
 
 public class SpigotListener implements Listener {
 
@@ -36,7 +31,7 @@ public class SpigotListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onMinecraftChatMessage(AsyncPlayerChatEvent e) {
-        if(isIllegalMention(e.getMessage())) {
+        if (isIllegalMention(e.getMessage())) {
             Tasks.nextTick(() -> {
                 e.getPlayer().kickPlayer("Stop mentioning @everyone or @here, ya imbecile!");
             });
@@ -44,7 +39,7 @@ public class SpigotListener implements Listener {
         }
         //Handling Discord Chat-Messages
         Member m = ConfigUtil.getDiscordMember(e.getPlayer());
-        String message = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&',e.getMessage())).replaceAll("§#[0-9a-f]{6}","");
+        String message = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', e.getMessage())).replaceAll("§#[0-9a-f]{6}", "");
 
         Tasks.async(() -> {
             Main.getPlugin().getBot().getJDA().getGuildById(ConfigUtil.getMainGuildID()).getTextChannelById(ConfigUtil.getChatChannelID()).sendMessage("**" + (m != null ? m.getEffectiveName() : e.getPlayer().getName()) + "**: " + message).queue();
@@ -84,11 +79,7 @@ public class SpigotListener implements Listener {
     public void onMinecraftPlayerAchievement(PlayerAdvancementDoneEvent e) {
         //Handling Discord Advancement-Message
         AdvancementInfo info = new AdvancementInfo(e.getAdvancement());
-        if (info.getTitle() == null) {
-            main.getLogger().warning("Null advancement: " + e.getAdvancement().getKey());
-            return;
-        }
-        if (e.getAdvancement().getKey().getKey().contains("recipe/")) return;
+        if (info.getTitle() == null || e.getAdvancement().getKey().getKey().contains("recipe/")) return;
         Member m = ConfigUtil.getDiscordMember(e.getPlayer());
         main.prepareEmbed()
                 .description((m == null ? e.getPlayer().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " completed the Advancement " + info.getTitle() + ".")

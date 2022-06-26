@@ -1,9 +1,6 @@
 package com.github.cxlina.smpbot.discord.command;
 
-import com.github.cxlina.smpbot.discord.command.impl.ListCommand;
-import com.github.cxlina.smpbot.discord.command.impl.OnlineCommand;
-import com.github.cxlina.smpbot.discord.command.impl.PVPCommand;
-import com.github.cxlina.smpbot.discord.command.impl.VerifyCommand;
+import com.github.cxlina.smpbot.discord.command.impl.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.apache.commons.lang3.ArrayUtils;
@@ -24,7 +21,8 @@ public class DiscordCommandManager extends ListenerAdapter {
                 new ListCommand(),
                 new OnlineCommand(),
                 new VerifyCommand(),
-                new PVPCommand()
+                new PVPCommand(),
+                new RetrieveCommand()
         ));
     }
 
