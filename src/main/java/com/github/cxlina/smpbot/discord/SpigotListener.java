@@ -7,6 +7,7 @@ import de.jeff_media.jefflib.Tasks;
 import de.jeff_media.jefflib.data.AdvancementInfo;
 import net.dv8tion.jda.api.entities.Member;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -69,8 +70,12 @@ public class SpigotListener implements Listener {
     public void onMinecraftPlayerDeath(PlayerDeathEvent e) {
         //Handling Discord Death-Message
         Member m = ConfigUtil.getDiscordMember(e.getEntity());
+        Entity damager = null;
+        if(e.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
+            damager = ((EntityDamageByEntityEvent) e.getEntity().getLastDamageCause()).getDamager();
+        }
         main.prepareEmbed()
-                .description((m == null ? e.getEntity().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " died. Reason: " + TranslationUtil.translateDamageReason(e.getEntity().getLastDamageCause().getCause().name()) + ".")
+                .description((m == null ? e.getEntity().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " died. Reason: " + TranslationUtil.translateDamageReason(e.getEntity().getLastDamageCause().getCause().name(),damager) + ".")
                 .color(Color.BLACK)
                 .send();
     }

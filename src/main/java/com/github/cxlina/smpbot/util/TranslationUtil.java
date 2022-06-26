@@ -1,11 +1,17 @@
 package com.github.cxlina.smpbot.util;
 
+import de.jeff_media.jefflib.WordUtils;
+import org.bukkit.entity.Entity;
+
+import javax.annotation.Nullable;
+
 public class TranslationUtil {
 
-    public static String translateDamageReason(String key) {
+    public static String translateDamageReason(String key, @Nullable Entity entity) {
+        if(entity != null) return getEntityType(entity);
+
         return switch (key) {
             case "CONTACT" -> "Contact";
-            case "ENTITY_ATTACK", "ENTITY_SWEEP_ATTACK" -> "Entity Attack";
             case "PROJECTILE" -> "Projectile";
             case "SUFFOCATION" -> "Suffocation";
             case "FALL" -> "Fall Damage";
@@ -33,5 +39,9 @@ public class TranslationUtil {
             case "SONIC_BOOM" -> "Sonic Boom";
             default -> "Unknown";
         };
+    }
+
+    private static String getEntityType(Entity entity) {
+        return WordUtils.getNiceName(entity.getType().name());
     }
 }
