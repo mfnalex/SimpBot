@@ -14,6 +14,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -71,11 +72,11 @@ public class SpigotListener implements Listener {
         //Handling Discord Death-Message
         Member m = ConfigUtil.getDiscordMember(e.getEntity());
         Entity damager = null;
-        if(e.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
+        if (e.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
             damager = ((EntityDamageByEntityEvent) e.getEntity().getLastDamageCause()).getDamager();
         }
         main.prepareEmbed()
-                .description((m == null ? e.getEntity().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " died. Reason: " + TranslationUtil.translateDamageReason(e.getEntity().getLastDamageCause().getCause().name(),damager) + ".")
+                .description((m == null ? e.getEntity().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " died. Reason: " + TranslationUtil.translateDamageReason(e.getEntity().getLastDamageCause().getCause().name(), damager) + ".")
                 .color(Color.BLACK)
                 .send();
     }
@@ -99,5 +100,12 @@ public class SpigotListener implements Listener {
                 e.setCancelled(true);
             }
         }
+    }
+
+    @EventHandler
+    public void onMinecraftPlayerRepairItem(PrepareAnvilEvent e) {
+        //Fixing Anvil-Overprice.
+        //In vanilla, there's a specific level (dunno which one) after which repairing items is considered as "too expensive" even if players have the xp. this fixes this.
+        e.getInventory().setMaximumRepairCost(Integer.MAX_VALUE);
     }
 }
