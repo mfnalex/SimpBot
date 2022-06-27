@@ -3,6 +3,7 @@ package com.github.cxlina.smpbot.discord;
 import com.github.cxlina.smpbot.Main;
 import com.github.cxlina.smpbot.util.ConfigUtil;
 import com.github.cxlina.smpbot.util.TranslationUtil;
+import com.github.cxlina.smpbot.util.Util;
 import de.jeff_media.jefflib.Tasks;
 import de.jeff_media.jefflib.data.AdvancementInfo;
 import net.dv8tion.jda.api.entities.Member;
@@ -44,7 +45,7 @@ public class SpigotListener implements Listener {
         String message = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', e.getMessage())).replaceAll("§#[0-9a-f]{6}", "");
 
         Tasks.async(() -> {
-            Main.getPlugin().getBot().getJDA().getGuildById(ConfigUtil.getMainGuildID()).getTextChannelById(ConfigUtil.getChatChannelID()).sendMessage("**" + (m != null ? m.getEffectiveName() : e.getPlayer().getName()) + "**: " + message).queue();
+            Util.sendWebhookMessageForPlayer(e.getPlayer(), "**" + message + "**");
         });
     }
 
@@ -52,19 +53,24 @@ public class SpigotListener implements Listener {
     public void onMinecraftJoin(PlayerJoinEvent e) {
         //Handling Discord Join-Messages
         Member m = ConfigUtil.getDiscordMember(e.getPlayer());
-        main.prepareEmbed()
-                .description((m == null ? e.getPlayer().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " joined the Server.")
-                .send();
+        Util.sendWebhookEmbedForPlayer(
+                e.getPlayer(),
+                "Joined the Server.",
+                "",
+                Color.GREEN
+        );
     }
 
     @EventHandler
     public void onMinecraftQuit(PlayerQuitEvent e) {
         //Handling Discord Quit-Message
         Member m = ConfigUtil.getDiscordMember(e.getPlayer());
-        main.prepareEmbed()
-                .description((m == null ? e.getPlayer().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " left the Server.")
-                .color(Color.RED)
-                .send();
+        Util.sendWebhookEmbedForPlayer(
+                e.getPlayer(),
+                "Left the Server.",
+                "",
+                Color.RED
+        );
     }
 
     @EventHandler
@@ -75,10 +81,12 @@ public class SpigotListener implements Listener {
         if (e.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent) {
             damager = ((EntityDamageByEntityEvent) e.getEntity().getLastDamageCause()).getDamager();
         }
-        main.prepareEmbed()
-                .description((m == null ? e.getEntity().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " died. Reason: " + TranslationUtil.translateDamageReason(e.getEntity().getLastDamageCause().getCause().name(), damager) + ".")
-                .color(Color.BLACK)
-                .send();
+        Util.sendWebhookEmbedForPlayer(
+                e.getPlayer(),
+                "Died. [" + TranslationUtil.translateDamageReason(e.getEntity().getLastDamageCause().getCause().name(), damager) + "].",
+                "",
+                Color.BLACK
+        );
     }
 
     @EventHandler
@@ -87,9 +95,12 @@ public class SpigotListener implements Listener {
         AdvancementInfo info = new AdvancementInfo(e.getAdvancement());
         if (info.getTitle() == null || e.getAdvancement().getKey().getKey().contains("recipe/")) return;
         Member m = ConfigUtil.getDiscordMember(e.getPlayer());
-        main.prepareEmbed()
-                .description((m == null ? e.getPlayer().getName() : (m.getRoles().isEmpty() ? "" : "[" + m.getRoles().get(0).getName() + "] ") + m.getEffectiveName()) + " completed the Advancement " + info.getTitle() + ".")
-                .send();
+        Util.sendWebhookEmbedForPlayer(
+                e.getPlayer(),
+                "Completed the Advancement " + info.getTitle() + ".",
+                "",
+                Color.BLACK
+        );
     }
 
     @EventHandler

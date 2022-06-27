@@ -2,10 +2,10 @@ package com.github.cxlina.smpbot;
 
 import com.github.cxlina.smpbot.discord.Bot;
 import com.github.cxlina.smpbot.discord.SpigotListener;
+import com.github.cxlina.smpbot.listeners.TotemListener;
 import com.github.cxlina.smpbot.util.ConfigUtil;
 import com.github.cxlina.smpbot.util.CumManager;
 import com.github.cxlina.smpbot.util.ReplyManager;
-import com.github.cxlina.smpbot.listeners.TotemListener;
 import de.jeff_media.jefflib.Tasks;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
@@ -28,11 +28,6 @@ public final class Main extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {
-        this.bot.getJDA().shutdownNow();
-    }
-
-    @Override
     public void onEnable() {
         this.saveDefaultConfig();
         plugin = this;
@@ -48,6 +43,11 @@ public final class Main extends JavaPlugin {
                 e.printStackTrace();
             }
         }, 0L, 200L);
+    }
+
+    @Override
+    public void onDisable() {
+        this.bot.getJDA().shutdownNow();
     }
 
     public Bot getBot() {

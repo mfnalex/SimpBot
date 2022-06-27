@@ -1,6 +1,8 @@
 package com.github.cxlina.smpbot.util;
 
+import com.github.cxlina.smpbot.Main;
 import de.jeff_media.jefflib.WordUtils;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 
 import javax.annotation.Nullable;
@@ -8,8 +10,7 @@ import javax.annotation.Nullable;
 public class TranslationUtil {
 
     public static String translateDamageReason(String key, @Nullable Entity entity) {
-        if(entity != null) return getEntityType(entity);
-
+        if (entity != null) return getEntityType(entity);
         return switch (key) {
             case "CONTACT" -> "Contact";
             case "PROJECTILE" -> "Projectile";
