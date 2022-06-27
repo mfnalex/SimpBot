@@ -5,6 +5,7 @@ import com.github.cxlina.smpbot.discord.SpigotListener;
 import com.github.cxlina.smpbot.util.ConfigUtil;
 import com.github.cxlina.smpbot.util.CumManager;
 import com.github.cxlina.smpbot.util.ReplyManager;
+import com.github.cxlina.smpbot.listeners.TotemListener;
 import de.jeff_media.jefflib.Tasks;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
@@ -39,6 +40,7 @@ public final class Main extends JavaPlugin {
         this.replyManager = new ReplyManager(getConfig().getStringList("on-ping"));
         this.bot = new Bot();
         Bukkit.getPluginManager().registerEvents(new SpigotListener(), this);
+        Bukkit.getPluginManager().registerEvents(new TotemListener(), this);
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             try {
                 bot.getJDA().getPresence().setActivity(Activity.watching("Online: " + Bukkit.getServer().getOnlinePlayers().size()));
