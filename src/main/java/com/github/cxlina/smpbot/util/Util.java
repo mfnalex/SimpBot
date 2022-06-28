@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.entities.Webhook;
 import org.bukkit.entity.Player;
 
 import java.awt.*;
+import java.io.IOException;
 
 public class Util {
 
@@ -24,6 +25,8 @@ public class Util {
             hook.setAvatarUrl(p == null ? null : "http://cravatar.eu/head/" + p.getUniqueId() + ".png");
             hook.setContent(message);
             hook.execute();
+        } catch (IOException e) {
+            sendWebhookMessage(p, author, "Error: " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,6 +46,8 @@ public class Util {
             hook.setAvatarUrl(p == null ? null : "http://cravatar.eu/head/" + p.getUniqueId() + ".png");
             hook.addEmbed(new DiscordWebhook.EmbedObject().setTitle(title).setDescription(description).setColor(color));
             hook.execute();
+        } catch (IOException e) {
+            sendWebhookEmbed(p, author, "Error", e.getMessage(), Color.RED);
         } catch (Exception e) {
             e.printStackTrace();
         }
