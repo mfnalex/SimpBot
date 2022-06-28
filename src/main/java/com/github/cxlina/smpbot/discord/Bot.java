@@ -3,7 +3,6 @@ package com.github.cxlina.smpbot.discord;
 import com.github.cxlina.smpbot.Main;
 import com.github.cxlina.smpbot.discord.command.DiscordCommandManager;
 import com.github.cxlina.smpbot.util.ConfigUtil;
-import com.github.cxlina.smpbot.util.Util;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;

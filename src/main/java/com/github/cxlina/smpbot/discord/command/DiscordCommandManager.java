@@ -22,7 +22,8 @@ public class DiscordCommandManager extends ListenerAdapter {
                 new OnlineCommand(),
                 new VerifyCommand(),
                 new PVPCommand(),
-                new RetrieveCommand()
+                new RetrieveCommand(),
+                new MuteCommand()
         ));
     }
 
