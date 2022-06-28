@@ -45,7 +45,7 @@ public class SpigotListener implements Listener {
         String message = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', e.getMessage())).replaceAll("§#[0-9a-f]{6}", "");
 
         Tasks.async(() -> {
-            Util.sendWebhookMessageForPlayer(e.getPlayer(), "**" + message + "**");
+            Util.sendWebhookMessageForPlayer(e.getPlayer(), message);
         });
     }
 
