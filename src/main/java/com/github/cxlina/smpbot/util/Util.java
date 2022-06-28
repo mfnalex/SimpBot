@@ -23,10 +23,9 @@ public class Util {
             DiscordWebhook hook = new DiscordWebhook(s);
             hook.setUsername(author);
             hook.setAvatarUrl(p == null ? null : "http://cravatar.eu/head/" + p.getUniqueId() + ".png");
-            hook.setContent(message);
+            hook.setContent(message.replace("\\", "\\\\").replace("\"", "\\\""));
             hook.execute();
-        } catch (IOException e) {
-            sendWebhookMessage(p, author, "Error: " + e.getMessage());
+        } catch (IOException ignored) {
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,10 +43,9 @@ public class Util {
             DiscordWebhook hook = new DiscordWebhook(s);
             hook.setUsername(author);
             hook.setAvatarUrl(p == null ? null : "http://cravatar.eu/head/" + p.getUniqueId() + ".png");
-            hook.addEmbed(new DiscordWebhook.EmbedObject().setTitle(title).setDescription(description).setColor(color));
+            hook.addEmbed(new DiscordWebhook.EmbedObject().setTitle(title).setDescription(description.replace("\\", "\\\\").replace("\"", "\\\"")).setColor(color));
             hook.execute();
-        } catch (IOException e) {
-            sendWebhookEmbed(p, author, "Error", e.getMessage(), Color.RED);
+        } catch (IOException ignored) {
         } catch (Exception e) {
             e.printStackTrace();
         }
