@@ -3,9 +3,7 @@ package com.github.cxlina.smpbot;
 import com.github.cxlina.smpbot.discord.Bot;
 import com.github.cxlina.smpbot.discord.SpigotListener;
 import com.github.cxlina.smpbot.listeners.TotemListener;
-import com.github.cxlina.smpbot.util.ConfigUtil;
-import com.github.cxlina.smpbot.util.CumManager;
-import com.github.cxlina.smpbot.util.ReplyManager;
+import com.github.cxlina.smpbot.util.*;
 import de.jeff_media.jefflib.Tasks;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
@@ -14,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.awt.*;
+import java.lang.reflect.Constructor;
 import java.util.Objects;
 
 public final class Main extends JavaPlugin {
@@ -43,11 +42,21 @@ public final class Main extends JavaPlugin {
                 e.printStackTrace();
             }
         }, 0L, 200L);
+
+        this.checkUpdated();
     }
 
     @Override
     public void onDisable() {
         this.bot.getJDA().shutdownNow();
+    }
+
+    private void checkUpdated() {
+        if (ConfigUtil.getConfigVersion() < Constants.CURRENT_VERSION) {
+            Util.sendWebhookEmbed(null, "Simp", "Bot was updated.", "", Color.GREEN);
+            this.getConfig().set("version", Constants.CURRENT_VERSION);
+            this.saveConfig();
+        }
     }
 
     public Bot getBot() {

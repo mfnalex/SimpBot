@@ -28,4 +28,12 @@ public class ConfigUtil {
         }
         return Main.getPlugin().getBot().getJDA().getGuildById(getMainGuildID()).retrieveMemberById(Main.getPlugin().getConfig().getString("verified." + p.getUniqueId().toString())).complete();
     }
+
+    public static int getConfigVersion() {
+        if (!Main.getPlugin().getConfig().contains("version")) {
+            Main.getPlugin().getConfig().set("version", 0);
+            Main.getPlugin().saveConfig();
+        }
+        return Main.getPlugin().getConfig().getInt("version");
+    }
 }
