@@ -25,7 +25,7 @@ public class MuteCommand extends DiscordCommand {
                     Member target = message.getMentions().getMembers().get(0);
                     try {
                         target.timeoutFor(Duration.ofHours(Integer.parseInt(args[1]))).queue();
-                        Main.getPlugin().prepareEmbed().title("Muted Member " + target.getEffectiveName()).description("Duration: " + args[1] + " Hours.").color(Color.GREEN).send();
+                        Main.getPlugin().prepareEmbed().title("Muted Member " + target.getEffectiveName()).description("Duration: " + args[1] + " Hours.").color(Color.GREEN).send(channel);
                     } catch (NumberFormatException e) {
                         message.reply("**Please use a valid Integer as a Duration**").queue();
                     }

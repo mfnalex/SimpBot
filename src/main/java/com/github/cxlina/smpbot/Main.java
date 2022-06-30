@@ -7,12 +7,12 @@ import com.github.cxlina.smpbot.util.*;
 import de.jeff_media.jefflib.Tasks;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.awt.*;
-import java.lang.reflect.Constructor;
 import java.util.Objects;
 
 public final class Main extends JavaPlugin {
@@ -118,6 +118,10 @@ public final class Main extends JavaPlugin {
             });
         }
 
-
+        public void send(MessageChannel channel) {
+            Tasks.async(() -> {
+                channel.sendMessageEmbeds(new net.dv8tion.jda.api.EmbedBuilder().setTitle(title).setDescription(description).setColor(color).build()).queue();
+            });
+        }
     }
 }
